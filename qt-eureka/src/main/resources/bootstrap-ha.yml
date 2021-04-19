@@ -1,0 +1,87 @@
+#高可用配置示例说明，目前有两种方式：
+#1、只需要修改 defaultZone的URL即可：规则为第一eureka配置到第二个，第二个配置到第三个，以此类推像链一样(暂时不使用这种方式，在测式时非常不稳定)
+#2、需要在 defaultZone以逗号做为间隔，把所有的注册中心列出来（推荐这种方式）
+#测式时需要改名，把bootstrap-ha.yml修改为bootstrap.yml
+#如果是windows需要修改C:\Windows\System32\drivers\etc\hosts文件如下增加：
+#127.0.0.1       peer1
+#127.0.0.1       peer2
+#127.0.0.1       peer3
+
+
+
+#默认环境(分别改变 active，允许IDEA多重启，在启用多个实例时，修改完要激活的环境再启动即可)
+spring:
+  profiles:
+    active: pre
+#表示eureka client间隔多久去拉取服务注册信息，默认为30秒，
+eureka:
+  client:
+    registry-fetch-interval-seconds: 5 # 默认为30秒
+
+    healthcheck:
+      enabled: true                           # 开启健康检查（依赖spring-boot-starter-actuator）
+  instance:
+    lease-renewal-interval-in-seconds: 5      # 心跳时间，即服务续约间隔时间（缺省为30s）
+    lease-expiration-duration-in-seconds: 10  # 发呆时间，即服务续约到期时间（缺省为90s）
+
+
+
+---
+#开发环境
+server:
+  port: 9102
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: http://peer2:7102/eureka/
+spring:
+  application:
+    name: server-eureka
+  profiles: dev
+
+---
+#生产环境
+server:
+  port: 7102
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: http://peer1:9102/eureka/
+spring:
+  application:
+    name: server-eureka2
+  profiles: pro
+
+---
+#测式环境
+server:
+  port: 8102
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: http://peer4:9102/eureka/
+spring:
+  application:
+    name: server-eureka3
+  profiles: test
+
+---
+  #预生产环境
+  server:
+    port: 6102
+  eureka:
+    instance:
+      hostname: localhost
+    client:
+      serviceUrl:
+        defaultZone: http://peer1:9102/eureka/
+  spring:
+    application:
+      name: server-eureka4
+    profiles: pre

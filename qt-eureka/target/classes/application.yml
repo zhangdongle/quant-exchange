@@ -1,0 +1,31 @@
+server:
+  port: 9001
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    prefer-ip-address: true
+    hostname: ${spring.cloud.client.ip-address}
+    # 心跳时间，即服务续约间隔时间（缺省为30s,生成环境建议缺省）
+    lease-renewal-interval-in-seconds: 5
+    # 服务失效时间（缺省为90s,生成环境建议缺省）
+    lease-expiration-duration-in-seconds: 20
+  client:
+    #表示是否注册Eureka服务器,因为自身作为服务注册中心，所以为false
+    registerWithEureka: false
+    #是否从eureka上获取注册信息，同上
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${spring.cloud.client.ip-address}:${server.port}/eureka/
+#设为false，关闭自我保护主要
+  server:
+    # 关闭注册中心的保护机制 默认为true (生成环境建议开启)
+    enable-self-preservation: false
+#清理间隔（单位毫秒，默认是60*1000）
+    eviction-interval-timer-in-ms: 4000
+spring:
+  application:
+    name: server-eureka
+  security:
+    user:
+      name: boniu
+      password: zongjie

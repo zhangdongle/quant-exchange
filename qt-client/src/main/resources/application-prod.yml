@@ -1,0 +1,41 @@
+server:
+  port: 8024
+  address: 0.0.0.0
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_ZONE_HOST:124.156.196.215}:${EUREKA_ZONE_PORT:8762}/eureka/
+  instance:
+    prefer-ip-address: true
+    ip-address: 124.156.196.215
+
+spring:
+  application:
+    name: qt-client
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password:
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+    timeout: 15000
+feign:
+  hystrix:
+    enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+      base-path: /
+vpnproxy:
+  enable: false
+  ip: 127.0.0.1
+  port: 64035
+

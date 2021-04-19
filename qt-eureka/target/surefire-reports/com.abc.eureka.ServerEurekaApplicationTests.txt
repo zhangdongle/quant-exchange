@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.abc.eureka.ServerEurekaApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 16.853 s - in com.abc.eureka.ServerEurekaApplicationTests

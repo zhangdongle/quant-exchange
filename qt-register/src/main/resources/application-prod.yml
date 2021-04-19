@@ -1,0 +1,13 @@
+server:
+  port: ${EUREKA_PORT:8762}
+  address: 0.0.0.0
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${EUREKA_ZONE_HOST:0.0.0.0}:${EUREKA_ZONE_PORT:8762}/eureka/
+
+spring:
+  application:
+    name: eureka-server
